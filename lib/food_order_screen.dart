@@ -114,6 +114,7 @@ class _FoodOrderScreenState extends State<FoodOrderScreen>
                                   ),
                                   Spacer(),
                                   OrderNow(
+                                    color: widget.color,
                                     animation: _animations[2],
                                   ),
                                   Spacer(),

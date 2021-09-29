@@ -39,7 +39,7 @@ class MyData {
       MyFoodModel("assets/images/lemon.png",
           marketName: "LYNX Market",
           kcalPer100g: "100",
-          name: "Lemon.png",
+          name: "Lemon",
           time: "30"),
     ],
     [
