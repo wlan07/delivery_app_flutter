@@ -6,7 +6,8 @@ class MyData {
     "Vegetables",
     "Coffes",
     "Ice Creams",
-    "Bevrage"
+    "Bevrage",
+    "Meats"
   ];
 
   static const List<List<MyFoodModel>> foods = [
@@ -61,6 +62,8 @@ class MyData {
     ],
     [],
     [],
+    [],
     []
+    
   ];
 }

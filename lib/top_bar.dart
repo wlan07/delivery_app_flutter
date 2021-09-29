@@ -16,7 +16,16 @@ class TopBar extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(25.0),
-          child: Icon(Icons.person_outline_outlined),
+          child: Container(
+            height: 45.0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: Image.asset("assets/images/profile.jpg").image
+              )
+            ),
+            width: 45.0,
+          ),
         )
       ],
     );
