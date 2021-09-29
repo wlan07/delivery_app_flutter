@@ -3,9 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class QuantitySelector extends StatelessWidget {
-  const QuantitySelector({Key? key, required this.animation}) : super(key: key);
+  const QuantitySelector(
+      {Key? key, required this.animation, required this.quantityNotifier})
+      : super(key: key);
 
   final Animation<double> animation;
+  final ValueNotifier<Map<String, int>> quantityNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +30,41 @@ class QuantitySelector extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Center(child: Text("-")),
+                    child: GestureDetector(
+                        onTap: () {
+                          if (quantityNotifier.value["current"]! > 1) {
+                            quantityNotifier.value = {
+                              "old": quantityNotifier.value["current"]!,
+                              "current": quantityNotifier.value["current"]! - 1
+                            };
+                          }
+                        },
+                        child: Center(child: Icon(Icons.remove,color: Colors.blue,))),
                   ),
                   Expanded(
                     child: Center(
-                        child: Text(
-                      "1",
-                      style: TextStyle(color: Colors.black, fontSize: 24.0),
-                    )),
+                      child: ValueListenableBuilder(
+                        valueListenable: quantityNotifier,
+                        builder: (BuildContext context, Map<String, int> value,
+                            Widget? child) {
+                          return Text(
+                            value["current"].toString(),
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 24.0),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   Expanded(
-                    child: Center(child: Text("+")),
+                    child: GestureDetector(
+                        onTap: () {
+                          quantityNotifier.value = {
+                            "old": quantityNotifier.value["current"]!,
+                            "current": quantityNotifier.value["current"]! + 1
+                          };
+                        },
+                        child: Center(child: Icon(Icons.add,color: Colors.blue,))),
                   )
                 ],
               ),

@@ -10,7 +10,9 @@ class TopBar extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
-          child: IconButton(onPressed: () => "", icon: Icon(Icons.arrow_back_outlined)),
+          child: IconButton(
+              onPressed: () => Navigator.of(context).maybePop(),
+              icon: Icon(Icons.arrow_back_outlined)),
         ),
         Padding(
           padding: const EdgeInsets.all(25.0),

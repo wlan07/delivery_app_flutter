@@ -4,13 +4,25 @@ import 'package:flutter/material.dart';
 
 class FoodExtraDetails extends StatelessWidget {
   const FoodExtraDetails(
-      {Key? key, required this.pageOffsetNotifier, required this.index})
+      {Key? key,
+      required this.pageOffsetNotifier,
+      required this.index,
+      required this.marketName,
+      required this.time,
+      required this.kcal})
       : super(key: key);
 
   final ValueNotifier<double> pageOffsetNotifier;
   final int index;
+  final String marketName;
+  final String time;
+  final String kcal;
 
-  double get opacity => 1.0;
+  // A MATHEMATIC CALCULATION TO DETERMINE THE OPACITY
+  double get opacity => (index > pageOffsetNotifier.value
+          ? pageOffsetNotifier.value - index + 1.0
+          : 1 - pageOffsetNotifier.value + index)
+      .clamp(0.0, 1.0);
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +37,10 @@ class FoodExtraDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Lynx Market",
+                  marketName,
                   style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
                 ),
-                Text("30 min"),
+                Text("$time min"),
               ],
             ),
             Divider(
@@ -45,7 +57,7 @@ class FoodExtraDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("100 grams"),
-                Text("437 kcal"),
+                Text("$kcal kcal"),
               ],
             ),
           ],
@@ -54,7 +66,9 @@ class FoodExtraDetails extends StatelessWidget {
       builder: (BuildContext context, double value, Widget? child) {
         return Opacity(
           opacity: opacity,
-          child: child!,
+          child: Transform.translate(
+              offset: Offset.lerp(Offset(index < value ? -100 : 100.0, 0.0), Offset.zero, opacity)!,
+              child: child!),
         );
       },
     );

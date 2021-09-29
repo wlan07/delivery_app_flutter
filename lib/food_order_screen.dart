@@ -8,11 +8,18 @@ import 'package:flutter/material.dart';
 import 'quantity_selector.dart';
 
 class FoodOrderScreen extends StatefulWidget {
-  const FoodOrderScreen({Key? key, required this.color, required this.index})
+  const FoodOrderScreen(
+      {Key? key,
+      required this.color,
+      required this.index,
+      required this.name,
+      required this.imagePath})
       : super(key: key);
 
   final Color color;
   final int index;
+  final String name;
+  final String imagePath;
 
   @override
   _FoodOrderScreenState createState() => _FoodOrderScreenState();
@@ -22,20 +29,27 @@ class _FoodOrderScreenState extends State<FoodOrderScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController opacityAnimationController;
 
+  late ValueNotifier<Map<String,int>> quantityNotifier;
+
   late List<Animation<double>> _animations;
 
   @override
   void initState() {
     opacityAnimationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+        vsync: this, duration: const Duration(milliseconds: 300));
+
+    quantityNotifier = ValueNotifier<Map<String,int>>({
+      "old":1,
+      "current":1
+    });
 
     _animations = [
       CurvedAnimation(
-          parent: opacityAnimationController, curve: Interval(0.0, 0.4)),
+          parent: opacityAnimationController, curve: Interval(0.0, 0.2)),
       CurvedAnimation(
-          parent: opacityAnimationController, curve: Interval(0.2, 0.6)),
+          parent: opacityAnimationController, curve: Interval(0.2, 0.9)),
       CurvedAnimation(
-          parent: opacityAnimationController, curve: Interval(0.4, 1.0))
+          parent: opacityAnimationController, curve: Interval(0.3, 1.0))
     ];
 
     Future.delayed(const Duration(milliseconds: 200), () {
@@ -47,6 +61,7 @@ class _FoodOrderScreenState extends State<FoodOrderScreen>
 
   @override
   void dispose() {
+    quantityNotifier.dispose();
     opacityAnimationController.dispose();
     super.dispose();
   }
@@ -62,80 +77,78 @@ class _FoodOrderScreenState extends State<FoodOrderScreen>
           children: [
             const TopBar(),
             Expanded(
-              child: Container(
-                //   color: Colors.green,
-                child: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    return Stack(
-                      alignment: Alignment.center,
-                      fit: StackFit.expand,
-                      children: [
-                        Positioned.fill(
-                          top: constraints.maxHeight * 0.25,
-                          child: Hero(
-                            tag: "CARD_BOX_${widget.index}",
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Container(
-                                padding: EdgeInsets.only(
-                                    top: constraints.maxHeight * 0.225),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Atom Plate",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 35.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Spacer(),
-                                    TotalPrice(
-                                      animation: _animations[0],
-                                    ),
-                                    Spacer(),
-                                    QuantitySelector(
-                                      animation: _animations[1],
-                                    ),
-                                    Spacer(),
-                                    OrderNow(
-                                      animation: _animations[2],
-                                    ),
-                                    Spacer(),
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                    color: widget.color,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(25.0),
-                                        topRight: Radius.circular(25.0))),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: constraints.maxHeight * 0.05,
-                          child: Hero(
-                            tag: "FOOD_${widget.index}",
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return Stack(
+                    alignment: Alignment.center,
+                    fit: StackFit.expand,
+                    children: [
+                      Positioned.fill(
+                        top: constraints.maxHeight * 0.25,
+                        child: Hero(
+                          tag: "CARD_BOX_${widget.index}",
+                          child: Material(
+                            color: Colors.transparent,
                             child: Container(
-                              height: constraints.maxHeight * 0.4,
-                              width: constraints.maxWidth * 0.7,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                //color: Colors.grey,
-                                image: DecorationImage(
-                                    image: Image.asset(
-                                            "assets/images/pineapple.png")
-                                        .image,
-                                    alignment: Alignment.center),
+                              padding: EdgeInsets.only(
+                                  top: constraints.maxHeight * 0.225),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    widget.name,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 35.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Spacer(),
+                                  TotalPrice(
+                                    animation: _animations[0],
+                                    quantityNotifier: quantityNotifier,
+                                  ),
+                                  Spacer(),
+                                  QuantitySelector(
+                                    quantityNotifier: quantityNotifier,
+                                    animation: _animations[1],
+                                  ),
+                                  Spacer(),
+                                  OrderNow(
+                                    animation: _animations[2],
+                                  ),
+                                  Spacer(),
+                                ],
                               ),
+                              decoration: BoxDecoration(
+                                  color: widget.color,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(25.0),
+                                      topRight: Radius.circular(25.0))),
                             ),
                           ),
                         ),
-                      ],
-                    );
-                  },
-                ),
+                      ),
+                      Positioned(
+                        top: constraints.maxHeight * 0.05,
+                        child: Hero(
+                          tag: "FOOD_${widget.index}",
+                          child: Container(
+                            height: constraints.maxHeight * 0.4,
+                            width: constraints.maxWidth * 0.7,
+                            child: Image.asset(
+                              widget.imagePath,
+                              alignment: Alignment.center,
+                              fit: BoxFit.contain,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             )
           ],
