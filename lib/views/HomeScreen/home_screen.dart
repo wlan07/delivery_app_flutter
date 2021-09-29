@@ -1,7 +1,7 @@
 import 'package:delivery_app_flutter/data/my_data.dart';
-import 'package:delivery_app_flutter/food_page_item.dart';
-import 'package:delivery_app_flutter/top_bar.dart';
-import 'package:delivery_app_flutter/top_nav_bar.dart';
+import 'package:delivery_app_flutter/views/HomeScreen/widgets/food_page_item.dart';
+import 'package:delivery_app_flutter/views/HomeScreen/widgets/top_nav_bar.dart';
+import 'package:delivery_app_flutter/views/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

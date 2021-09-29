@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:delivery_app_flutter/order_now.dart';
-import 'package:delivery_app_flutter/top_bar.dart';
-import 'package:delivery_app_flutter/total_price.dart';
+import 'package:delivery_app_flutter/views/OrderScreen/widgets/order_now.dart';
+import 'package:delivery_app_flutter/views/OrderScreen/widgets/total_price.dart';
+import 'package:delivery_app_flutter/views/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 
-import 'quantity_selector.dart';
+import 'widgets/quantity_selector.dart';
 
 class FoodOrderScreen extends StatefulWidget {
   const FoodOrderScreen(

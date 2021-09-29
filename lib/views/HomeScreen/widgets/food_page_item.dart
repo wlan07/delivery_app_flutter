@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'food_card.dart';
 import 'food_extra_details.dart';
-import 'food_order_screen.dart';
+import '../../OrderScreen/food_order_screen.dart';
 
 class FoodPageItem extends StatefulWidget {
   const FoodPageItem({Key? key, required this.models, required this.foodGenre})

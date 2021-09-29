@@ -1,4 +1,4 @@
-import 'package:delivery_app_flutter/your_order_in_the_way.dart';
+import 'package:delivery_app_flutter/views/AfterOrderScreen/your_order_in_the_way.dart';
 import 'package:flutter/material.dart';
 
 class OrderNow extends StatelessWidget {

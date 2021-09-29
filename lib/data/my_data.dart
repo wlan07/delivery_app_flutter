@@ -1,6 +1,7 @@
 import 'package:delivery_app_flutter/models/food_model.dart';
 
 class MyData {
+  
   static const List<String> foodsbygenre = [
     "Fruits",
     "Vegetables",
